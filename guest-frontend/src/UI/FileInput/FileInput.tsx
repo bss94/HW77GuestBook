@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import {Button, Grid, IconButton, TextField} from '@mui/material';
+import React, {useRef, useState} from 'react';
+import {Button, Grid, TextField} from '@mui/material';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   label: string;
 }
 
-const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
+const FileInput: React.FC<Props> = ({onChange, name, label}) => {
   const [fileName, setFileName] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -20,7 +20,6 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files[0]);
       setFileName(e.target.files[0].name);
     } else {
       setFileName('');
@@ -33,23 +32,21 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
       <input
         type="file"
         name={name}
-        style={{ display: 'none' }}
+        style={{display: 'none'}}
         ref={inputRef}
         onChange={onFileChange}
       />
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
           <TextField
+            fullWidth
             label={label}
-            inputProps={{ readOnly: true }}
+            inputProps={{readOnly: true}}
             value={fileName}
             onClick={activateInput}
           />
         </Grid>
         <Grid item>
-          <IconButton onClick={activateInput}>
-            <AddPhotoAlternateOutlinedIcon/>
-          </IconButton>
           <Button
             onClick={activateInput}
             variant="outlined">

@@ -6,19 +6,28 @@ export interface PostsState {
   items: Post[];
   itemsFetching: boolean;
   isCreating: boolean;
+  showModal: boolean;
 }
 
 const initialState: PostsState = {
   items: [],
   itemsFetching: false,
   isCreating: false,
+  showModal: false
 };
 
 
 export const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    openModal: (state) => {
+      state.showModal = true;
+    },
+    closeModal: (state) => {
+      state.showModal = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.pending, (state) => {
       state.itemsFetching = true;
@@ -35,23 +44,31 @@ export const postsSlice = createSlice({
     })
       .addCase(createPost.fulfilled, (state) => {
         state.isCreating = false;
+        state.showModal = false;
       })
       .addCase(createPost.rejected, (state) => {
         state.isCreating = false;
+        state.showModal = false;
       });
-
   },
   selectors: {
-    selectPosts:(state)=>state.items,
-    selectFetching:(state)=>state.itemsFetching,
-    selectCreating:(state)=>state.isCreating,
+    selectPosts: (state) => state.items,
+    selectFetching: (state) => state.itemsFetching,
+    selectCreating: (state) => state.isCreating,
+    selectShowModal: (state) => state.showModal,
   }
 });
 
 export const postsReducers = postsSlice.reducer;
 
 export const {
+  openModal,
+  closeModal
+} = postsSlice.actions;
+
+export const {
   selectPosts,
   selectFetching,
-  selectCreating
+  selectCreating,
+  selectShowModal
 } = postsSlice.selectors;

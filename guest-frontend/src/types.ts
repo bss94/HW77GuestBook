@@ -5,7 +5,7 @@ export interface Post {
   image: string | null,
 }
 
-export interface PostMutation{
+export interface PostMutation {
   author: string,
   message: string,
   image: File | null,

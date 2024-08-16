@@ -6,10 +6,7 @@ import {Grid, TextField} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import FileInput from '../../../UI/FileInput/FileInput';
-import {createPost} from '../postsThunks';
-
-
-
+import {createPost, fetchPosts} from '../postsThunks';
 
 const GuestForm = () => {
   const dispatch = useAppDispatch();
@@ -23,18 +20,24 @@ const GuestForm = () => {
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    await dispatch(createPost(state));
+    try {
+      await dispatch(createPost(state));
+    } catch (e) {
+
+    } finally {
+      await dispatch(fetchPosts());
+    }
   };
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const {name, value} = event.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
   const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = event.target;
+    const {name, files} = event.target;
     const value = files && files[0] ? files[0] : null;
     setState((prevState) => ({
       ...prevState,
@@ -46,14 +49,16 @@ const GuestForm = () => {
     <Grid container direction="column" spacing={2} component="form" onSubmit={submitFormHandler}>
       <Grid item>
         <TextField
+          fullWidth
           label="Author"
           id="author"
           name="author"
           value={state.author}
-          onChange={inputChangeHandler} />
+          onChange={inputChangeHandler}/>
       </Grid>
       <Grid item>
         <TextField
+          fullWidth
           required
           multiline
           minRows={3}
@@ -68,16 +73,14 @@ const GuestForm = () => {
         <FileInput
           label="Image"
           name="image"
-          onChange={fileInputChangeHandler} />
+          onChange={fileInputChangeHandler}/>
       </Grid>
-
-
       <Grid item>
         <LoadingButton
           type="submit"
           loading={isCreating}
           loadingPosition="start"
-          startIcon={<SaveIcon />}
+          startIcon={<SaveIcon/>}
           variant="contained"
         >
           <span>Save</span>
