@@ -16,7 +16,7 @@ export const createPost = createAsyncThunk<void, PostMutation>(
     if (postMutation.author.trim() !== '') {
       formData.append('author', postMutation.author);
     }
-    formData.append('message', postMutation.message);
+    formData.append('message', postMutation.message.trim());
     if (postMutation.image) {
       formData.append('image', postMutation.image);
     }

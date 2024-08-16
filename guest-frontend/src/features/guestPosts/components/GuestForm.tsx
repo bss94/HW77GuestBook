@@ -7,6 +7,7 @@ import {LoadingButton} from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import FileInput from '../../../UI/FileInput/FileInput';
 import {createPost, fetchPosts} from '../postsThunks';
+import {toast} from 'react-toastify';
 
 const GuestForm = () => {
   const dispatch = useAppDispatch();
@@ -21,11 +22,15 @@ const GuestForm = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
+      if (state.message.trim() === '') {
+        throw new Error('Please enter a valid message');
+      }
       await dispatch(createPost(state));
-    } catch (e) {
-
-    } finally {
+      toast.success('Post successfully created');
       await dispatch(fetchPosts());
+
+    } catch (e) {
+      toast.error((e as Error).message);
     }
   };
 

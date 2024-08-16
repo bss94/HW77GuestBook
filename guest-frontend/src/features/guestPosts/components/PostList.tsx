@@ -25,7 +25,7 @@ const PostList = () => {
             <Grow
               in
               style={{transformOrigin: '0 0 0'}}
-              {...({timeout: index * 1000})}
+              {...{timeout: index * 1500}}
               key={post.id}
             >
               <Paper sx={{m: 1,}} elevation={10}>

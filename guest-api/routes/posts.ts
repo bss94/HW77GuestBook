@@ -12,8 +12,8 @@ postsRouter.get('/', async (req, res) => {
 
 
 postsRouter.post('/', imagesUpload.single('image'), async (req, res) => {
-  if (!req.body.message) {
-    return res.status(400).send({error: 'Message are required!'});
+  if (!req.body.message || req.body.message.trim() === '') {
+    return res.status(400).send({error: 'Bad request! Message are required!'});
   }
   const post: ReqPost = {
     author: req.body.author ? req.body.author : 'Anonymous',
