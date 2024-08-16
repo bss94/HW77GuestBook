@@ -19,12 +19,16 @@ const GuestForm = () => {
     image: null,
   });
 
+  const messageCheck = () => {
+    if (state.message.trim() === '') {
+      throw Error('Please enter a valid message! Message cant be only on spaces!');
+    }
+  };
+
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      if (state.message.trim() === '') {
-        throw new Error('Please enter a valid message');
-      }
+      void messageCheck()
       await dispatch(createPost(state));
       toast.success('Post successfully created');
       await dispatch(fetchPosts());

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-    <ToastContainer/>
+    <ToastContainer position="bottom-left"/>
     <CssBaseline/>
     <App/>
   </Provider>,
